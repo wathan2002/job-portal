@@ -132,7 +132,7 @@ class JobController extends Controller
                 'employer_id'=>$request->employer_id,
                 'employee_id'=>$request->employee_id,
                 'application_id'=>$request->application_id,
-                'message'=>'Sorry, You are rejected!',
+                'message'=>$request->message,
                 'accept'=>$application->accept,
             ]);
         };

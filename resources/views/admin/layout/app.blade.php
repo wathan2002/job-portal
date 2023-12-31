@@ -18,6 +18,7 @@
     <!-- Custom styles for this template-->
     {{-- <link href="admin-assets/css/sb-admin-2.min.css" rel="stylesheet"> --}}
     <link href="{{asset('admin-assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <!-- bootstrap icon -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
 </head>
@@ -50,8 +51,8 @@
 
             <!-- User list -->
             @if(Auth::user()->role == 'admin')
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('admin/user-list') }}">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url('admin/user') }}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>User List</span>
                     </a>
@@ -62,7 +63,28 @@
                         <span>Category</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url('admin/report')}}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Report</span>
+                    </a>
+                </li>
             @endif
+
+             <!-- Nav Item - News Category -->
+             <li class="nav-item">
+                <a class="nav-link" href="{{url('admin/newsCategories')}}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                    <span>NewsCategory</span></a>
+            </li>
+
+            <!-- Nav Item - News -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('admin/news')}}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                    <span>News</span></a>
+            </li>
+
 
             <!-- Nav Item - Charts -->
             @if(Auth::user()->role === 'employer' && Auth::user()->active === 0)
@@ -275,8 +297,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{{asset('admin-assets/img/undraw_profile.svg')}}">
+                                <img class="img-profile rounded-circle" style="object-fit: cover;"
+                                    src="{{asset('storage/images/'.Auth::user()->image)}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -543,6 +565,8 @@
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('admin-assets/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('admin-assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
     <!-- Core plugin JavaScript-->
     <script src="{{asset('admin-assets/vendor/jquery-easing/jquery.easing.min.js')}}"></script>

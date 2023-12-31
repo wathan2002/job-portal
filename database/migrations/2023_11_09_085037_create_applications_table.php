@@ -20,7 +20,9 @@ return new class extends Migration
             $table->integer('mobile');
             $table->string('address');
             $table->decimal('salary');
-            $table->tinyInteger('accept')->nullable();
+            $table->string('gender')->default('male');
+            $table->string('image')->nullable();
+            $table->tinyInteger('accept')->default(0);
             $table->timestamps();
         });
     }

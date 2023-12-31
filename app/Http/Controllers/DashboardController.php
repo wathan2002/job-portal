@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class DashboardController extends Controller
     public function paymentStore(Request $request)
     {
         $request->validate([
-            'image'=>"required|image|mimes:png,jpg,jpeg",
+            'image'=>"required|image|mimes:png,jpg,jpeg,webp",
         ]);
 
         $image = $request->image;
@@ -58,5 +59,12 @@ class DashboardController extends Controller
             'active'=> 1
         ]);
         return back();
+    }
+
+    public function report()
+    {
+        $applicants = Application::where('accept', 0)->get();
+        $workers = Application::where('accept', 1)->get();
+        return view('admin/report/index', compact('applicants', 'workers'));
     }
 }

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\category;
+use App\Models\Comment;
 use App\Models\Job;
 use App\Models\Message;
+use App\Models\News;
+use App\Models\NewsCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +19,7 @@ class UiController extends Controller
         $jobs = Job::all();
         $categories = category::all();
         return view('ui_panel.welcome', compact('jobs', 'categories'));
+
     }
 
     public function search(Request $request)
@@ -42,5 +46,37 @@ class UiController extends Controller
         $messages = Message::where('employee_id', $user->id)->get();
 
         return view('ui_panel.employee-profile', compact('messages', 'user'));
+    }
+
+    public function news()
+    {
+        $news = News::all();
+        $news_categories = NewsCategory::all();
+        return view('ui_panel.news.index',compact('news','news_categories'));
+    }
+
+    public function news_detail($id)
+    {
+        $new = News::find($id);
+        $comments = Comment::where('status', 'show')->where('news_id', $id)->get();
+        return view('ui_panel.news.detail',compact('new', 'comments'));
+    }
+
+    public function searchNews(Request $request)
+    {
+        $searchData = $request->search_data;
+        $news_categories = NewsCategory::all();
+
+        $news = News::where('title', 'like', '%'. $searchData . '%')
+        ->orWhere('description', 'like', '%'. $searchData . '%')->get();
+
+        return view('ui_panel.news.index', compact('news', 'news_categories'));
+    }
+
+    public function search_news($id)
+    {
+        $news_categories = NewsCategory::all();
+        $news = News::where('news_category_id', $id)->get();
+        return view('ui_panel.news.index', compact('news', 'news_categories'));
     }
 }

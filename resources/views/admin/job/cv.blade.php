@@ -17,7 +17,7 @@
         <form action="{{ url('admin/jobs') }}">
             <button class="btn btn-sm btn-primary my-3 float-end"> << Back </button>
         </form>
-        <table class="table table-secondary table-striped">
+        <table class="table table-secondary table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -26,6 +26,8 @@
                     <th>Phone</th>
                     <th>Address</th>
                     <th>Salary</th>
+                    <th>Gender</th>
+                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -38,6 +40,10 @@
                         <td>{{$application->mobile}}</td>
                         <td>{{$application->address}}</td>
                         <td>{{$application->salary}}</td>
+                        <td>{{$application->gender}}</td>
+                        <td>
+                            <img src="{{asset('storage/application-images/'.$application->image)}}" alt="" width="150px">
+                        </td>
                         <td>
                             <form method="post">@csrf
                                 <input type="hidden" name="job_id" value="{{$application->job_id}}">

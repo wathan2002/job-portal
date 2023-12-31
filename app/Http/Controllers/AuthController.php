@@ -6,13 +6,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
 {
     public function login()
     {
-        return view('auth.login');
+        $previousURL = url()->previous();
+        $baseURL = url()->to("/");
+
+        if($previousURL != $baseURL . "/login"){
+            session()->put('url.intended', $previousURL);
+        }
+        return view("auth.login");
     }
 
     // public function loginform(Request $request)
@@ -40,6 +47,7 @@ class AuthController extends Controller
 
     public function loginform(Request $request)
     {
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -53,10 +61,9 @@ class AuthController extends Controller
             } elseif ($user->role === 'admin') {
                 return redirect()->route('userList');
             } else {
-                return redirect('/');
+                return redirect()->intended("/");
             }
         }
-
         return redirect()->route('login')->with('error', 'Invalid credentials. Please try again.');
     }
 
@@ -106,12 +113,10 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-
-
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect('/');
     }
 
     public function registerUpdate(Request $request, $id)
